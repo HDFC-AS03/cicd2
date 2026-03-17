@@ -172,21 +172,4 @@ jobs:
             echo "Cleaning old images..."
             docker image prune -a -f
 
-  # ==========================================
-  # SLACK NOTIFICATIONS
-  # ==========================================
-  notify:
-    name: Slack Notification
-    needs: [deploy]
-    if: always() && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Notify Slack
-        uses: slackapi/slack-github-action@v1.25.0
-        with:
-          payload: |
-            {
-              "text": "AS03 Pipeline: Build #${{ github.run_number }} ${{ needs.deploy.result == 'success' && '✅ Succeeded' || '❌ Failed' }}\nCheck Logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+ 
