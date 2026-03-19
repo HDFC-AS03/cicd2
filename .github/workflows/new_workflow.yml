@@ -1,4 +1,4 @@
-name: AS03 Full Stack CI/CD (Enhanced)
+name: AS03 Full Stack CI/CD
 
 on:
   push:
@@ -14,7 +14,7 @@ env:
   PYTHON_VERSION: "3.11"
   NODE_VERSION: "20"
   BACKEND_IMAGE: hdfcas03/as03-backend-1
-  FRONTEND_IMAGE: hdfcas03/as03-frontend-1
+  FRONTEND_IMAGE: hdfcas03/as03-frontend-1
 jobs:
   # ==========================================
   # BACKEND CI & SECURITY (FastAPI)
