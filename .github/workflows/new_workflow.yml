@@ -36,6 +36,7 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: "pip"
+          cache-dependency-path: AS-03-Backend/requirements.txt
 
       - name: SAST & Quality Checks
         run: |
@@ -82,22 +83,26 @@ jobs:
           exit-code: '0'
           severity: 'HIGH,CRITICAL'
 
+      # ==========================================
       # DAST (OWASP ZAP) setup example
-      - name: Run App for DAST
-        if: github.ref == 'refs/heads/main'
-        run: |
-          docker run -d -p 8000:8000 --name target-app \
-            -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
-            -e SECRET_KEY="${{ secrets.SECRET_KEY }}" \
-            ${{ env.BACKEND_IMAGE }}:${{ github.sha }}
-          sleep 10 # Wait for app to boot
-
-      - name: OWASP ZAP Baseline Scan
-        if: github.ref == 'refs/heads/main'
-        uses: zaproxy/action-baseline@v0.12.0
-        with:
-          target: 'http://localhost:8000'
-          fail_action: false
+      # Disabled because the backend needs Keycloak & Postgres to boot.
+      # To enable, replace `docker run` with `docker compose up -d`
+      # ==========================================
+      # - name: Run App for DAST
+      #   if: github.ref == 'refs/heads/main'
+      #   run: |
+      #     docker run -d -p 8000:8000 --name target-app \
+      #       -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+      #       -e SECRET_KEY="${{ secrets.SECRET_KEY }}" \
+      #       ${{ env.BACKEND_IMAGE }}:${{ github.sha }}
+      #     sleep 10 # Wait for app to boot
+      #
+      # - name: OWASP ZAP Baseline Scan
+      #   if: github.ref == 'refs/heads/main'
+      #   uses: zaproxy/action-baseline@v0.12.0
+      #   with:
+      #     target: 'http://localhost:8000'
+      #     fail_action: false
 
   # ==========================================
   # FRONTEND CI (React / Vite)
@@ -171,5 +176,3 @@ jobs:
             
             echo "Cleaning old images..."
             docker image prune -a -f
-
- 
