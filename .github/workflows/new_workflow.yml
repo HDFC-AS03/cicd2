@@ -13,9 +13,8 @@ concurrency:
 env:
   PYTHON_VERSION: "3.11"
   NODE_VERSION: "20"
-  BACKEND_IMAGE: mrmonster786/as03-backend # Update with your DockerHub namespace
-  FRONTEND_IMAGE: mrmonster786/as03-frontend
-
+  BACKEND_IMAGE: hdfcas03/as03-backend-1
+  FRONTEND_IMAGE: hdfcas03/as03-frontend-1
 jobs:
   # ==========================================
   # BACKEND CI & SECURITY (FastAPI)
