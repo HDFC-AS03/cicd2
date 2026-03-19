@@ -162,20 +162,17 @@ jobs:
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
-          key_path: key.pem
+          key: |
+            ${{ secrets.EC2_SSH_KEY }}
           port: 22
           debug: true
           script: |
             set -e
-            PROJECT_DIR="$HOME/CI-CD-pipeline/docker-compose"
-            cd "$PROJECT_DIR"
-
-            echo "Pulling latest images from DockerHub..."
+            cd "$HOME/CI-CD-pipeline/docker-compose"
             docker compose pull
-
-            echo "Restarting containers..."
             docker compose down
             docker compose up -d
+      
 
             echo "Healthcheck..."
             curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/v1/auth/health || true
