@@ -152,11 +152,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
 
     steps:
-      - name: Decode SSH key
-        run: |
-          echo "${{ secrets.EC2_SSH_KEY_BASE64 }}" | base64 -d > key.pem
-          chmod 600 key.pem
-
+     
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
