@@ -158,6 +158,11 @@ jobs:
         run: |
           printf '%s\n' "$SSH_PRIVATE_KEY" > /tmp/key.pem
           chmod 600 /tmp/key.pem
+          echo "=== KEY FILE CONTENTS ==="
+          cat /tmp/key.pem
+          echo "=== KEY FILE PERMISSIONS ==="
+          ls -la /tmp/key.pem
+          echo "=== TRYING SSH ==="
           ssh -i /tmp/key.pem \
             -o StrictHostKeyChecking=no \
             -o ServerAliveInterval=60 \
