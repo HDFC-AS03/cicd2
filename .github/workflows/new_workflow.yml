@@ -142,25 +142,31 @@ jobs:
           push: ${{ github.ref == 'refs/heads/main' }}
           tags: ${{ env.FRONTEND_IMAGE }}:${{ github.sha }},${{ env.FRONTEND_IMAGE }}:latest
 
-  # ==========================================
-  # DEPLOY TO EC2
-  # ==========================================
+# ==========================================
+# DEPLOY TO EC2
+# ==========================================
   deploy:
-    - name: Deploy via SSH
-      uses: appleboy/ssh-action@v1.0.3
-      with:
-      host: ${{ secrets.EC2_HOST }}
-      username: ${{ secrets.EC2_USER }}
-      key: ${{ secrets.EC2_SSH_KEY }}
-      port: 22
-      debug: true
-      script: |
-        set -e
-        cd "$HOME/CI-CD-pipeline/docker-compose"
-        docker compose pull
-        docker compose down
-        docker compose up -d
-        echo "Healthcheck..."
-        curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/v1/auth/health || true
-        echo "Cleaning old images..."
-        docker image prune -a -f
+    name: Deploy to EC2
+    needs: [backend, frontend]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          debug: true
+          script: |
+            set -e
+            cd "$HOME/CI-CD-pipeline/docker-compose"
+            docker compose pull
+            docker compose down
+            docker compose up -d
+            echo "Healthcheck..."
+            curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/v1/auth/health || true
+            echo "Cleaning old images..."
+            docker image prune -a -f
