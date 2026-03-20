@@ -150,7 +150,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
 
     steps:
-      - name: Deploy via SSH
+      - name: Deploy via SSH      
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           EC2_HOST: ${{ secrets.EC2_HOST }}
@@ -158,18 +158,5 @@ jobs:
         run: |
           printf '%s\n' "$SSH_PRIVATE_KEY" > /tmp/key.pem
           chmod 600 /tmp/key.pem
-          echo "=== KEY FILE CONTENTS ==="
-          cat /tmp/key.pem
-          echo "=== KEY FILE PERMISSIONS ==="
-          ls -la /tmp/key.pem
-          echo "=== TRYING SSH ==="
-          ssh -i /tmp/key.pem \
-            -o StrictHostKeyChecking=no \
-            -o ServerAliveInterval=60 \
-            $EC2_USER@$EC2_HOST \
-            "cd ~/CI-CD-pipeline/docker-compose && \
-             docker compose pull && \
-             docker compose down && \
-             docker compose up -d && \
-             docker image prune -a -f"
+          ssh -i /tmp/key.pem -o StrictHostKeyChecking=no -o ServerAliveInterval=60 $EC2_USER@$EC2_HOST "cd ~/CI-CD-pipeline/docker-compose && docker compose pull && docker compose down && docker compose up -d && docker image prune -a -f"
           rm -f /tmp/key.pem
