@@ -15,7 +15,7 @@ env:
   NODE_VERSION: "20"
   BACKEND_IMAGE: hdfcas03/as03-backend-1
   FRONTEND_IMAGE: hdfcas03/as03-frontend-1
-  GATEWAY_IMAGE: hdfcas03/as03-gateway-1    # ← ADDED
+  GATEWAY_IMAGE: hdfcas03/as03-gateway-1
 
 jobs:
   # ==========================================
@@ -117,7 +117,7 @@ jobs:
           tags: ${{ env.FRONTEND_IMAGE }}:${{ github.sha }},${{ env.FRONTEND_IMAGE }}:latest
 
   # ==========================================
-  # GATEWAY CI (OpenResty/Nginx)          ← ADDED
+  # GATEWAY CI (OpenResty/Nginx)
   # ==========================================
   gateway:
     name: Gateway Build
@@ -136,31 +136,26 @@ jobs:
       - name: Build & Push Gateway Image
         uses: docker/build-push-action@v5
         with:
-          context: ./AS-03-Backend/gateway 
+          context: ./AS-03-Backend/gateway
           push: ${{ github.ref == 'refs/heads/main' }}
           tags: ${{ env.GATEWAY_IMAGE }}:${{ github.sha }},${{ env.GATEWAY_IMAGE }}:latest
 
   # ==========================================
   # DEPLOY TO EC2
   # ==========================================
-  deploy:
+  deploy:                                    # ← 2 spaces only
     name: Deploy to EC2
-    needs: [backend, frontend, gateway]    # ← UPDATED
+    needs: [backend, frontend, gateway]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
 
     steps:
-      - name: Decode SSH Key
-        run: |
-          echo "${{ secrets.EC2_SSH_KEY_BASE64 }}" | base64 -d > /tmp/key.pem
-          chmod 600 /tmp/key.pem
-
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
-          key_path: /tmp/key.pem           # ← UPDATED
+          key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
             set -e
