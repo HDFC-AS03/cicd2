@@ -59,7 +59,7 @@ describe("Initial load", () => {
   it("TC-03: calls GET /admin/users on mount", async () => {
     await renderUM();
     expect(global.fetch).toHaveBeenCalledWith(
-      "http://localhost/admin/users",
+      "http://98.95.117.28/admin/users",
       expect.objectContaining({ credentials: "include" })
     );
   });
@@ -276,7 +276,7 @@ describe("Add User modal", () => {
     fireEvent.click(screen.getByText("Create User"));
     await waitFor(() =>
       expect(global.fetch).toHaveBeenCalledWith(
-        "http://localhost/admin/bulk-users",
+        "http://98.95.117.28/admin/bulk-users",
         expect.objectContaining({
           method: "POST",
           body: expect.stringContaining("test@bank.io"),
@@ -368,7 +368,7 @@ describe("Delete User modal", () => {
       expect(screen.queryByText(/permanently delete/i)).not.toBeInTheDocument()
     );
     expect(global.fetch).toHaveBeenCalledWith(
-      "http://localhost/admin/users/u1",
+      "http://98.95.117.28/admin/users/u1",
       expect.objectContaining({ method: "DELETE" })
     );
   });
@@ -592,7 +592,7 @@ describe("CSV Import", () => {
     fireEvent.change(input);
     await waitFor(() =>
       expect(global.fetch).toHaveBeenCalledWith(
-        "http://localhost/admin/bulk-users",
+        "http://98.95.117.28/admin/bulk-users",
         expect.objectContaining({ method: "POST" })
       )
     );

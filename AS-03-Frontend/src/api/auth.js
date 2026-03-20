@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost";
+const API_BASE = "http://98.95.117.28";
 
 export function login() {
   window.location.href = `${API_BASE}/login`;

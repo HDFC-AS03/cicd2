@@ -4,7 +4,7 @@ import { UserCircle, Shield, Lock, Users, ArrowRight, Moon, Sun } from "lucide-r
 import hdfcLogo from '../assets/hdfcbanklogo.png';
 import myImage from '../assets/yy.png';
 
-const API_BASE = "http://localhost:8000";
+const API_BASE = "http://98.95.117.28";
 
 function LandingPage() {
   const [darkMode, setDarkMode] = useState(false);

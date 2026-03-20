@@ -1027,7 +1027,7 @@ const refreshSession = useCallback(() => {
     .find((row) => row.startsWith("csrf_token="))
     ?.split("=")[1];
 
-  fetch("http://localhost/refresh", {
+  fetch("http://98.95.117.28/refresh", {
     method: "POST",
     credentials: "include",
     headers: {
@@ -1124,7 +1124,7 @@ if (isLoading) {
 
   const renderContent = () => {
     if (activeItem?.route) {
-      window.open(`http://localhost${activeItem.route}`, "_blank");
+      window.open(`http://98.95.117.28${activeItem.route}`, "_blank");
       return <ComingSoon item={activeItem} themeColor={themeColor} />;
     }
     if (activeItem?.label === "User Management") return <UserManagement />;
@@ -1169,7 +1169,7 @@ if (isLoading) {
                 style={isActive ? { background: themeColor } : {}}
                 title={!sidebarOpen ? item.label : undefined}
                 onClick={() => {
-                  if (item.route) { window.open(`http://localhost${item.route}`, "_blank"); return; }
+                  if (item.route) { window.open(`http://98.95.117.28${item.route}`, "_blank"); return; }
                   setActiveMenu(item.label);
                 }}
                 onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.background = "rgba(255,255,255,0.1)"; }}

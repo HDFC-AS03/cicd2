@@ -19,7 +19,7 @@ local issuer1 = os.getenv("JWT_ISSUER_1")
     or "http://keycloak:8080/realms/auth-realm"
 
 local issuer2 = os.getenv("JWT_ISSUER_2")
-    or "http://localhost:8080/realms/auth-realm"
+    or "http://32.193.123.27:8080/realms/auth-realm"
 
 -- Build issuers table safely — nil keys would cause "table index is nil" crash
 local EXPECTED_ISSUERS = {}

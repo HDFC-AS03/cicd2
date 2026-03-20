@@ -1,7 +1,7 @@
 services:
 
   backend:
-    image: hdfcas03/as03-backend-1:latest    # ← from DockerHub
+    image: hdfcas03/as03-backend-1:latest
     container_name: backend
     ports:
       - "8000:8000"
@@ -14,7 +14,7 @@ services:
       - app-network
 
   gateway:
-    image: hdfcas03/as03-gateway-1:latest    # ← from DockerHub
+    image: hdfcas03/as03-gateway-1:latest
     container_name: api-gateway
     ports:
       - "80:80"
@@ -31,7 +31,7 @@ services:
       - app-network
 
   frontend:
-    image: hdfcas03/as03-frontend-1:latest   # ← from DockerHub
+    image: hdfcas03/as03-frontend-1:latest
     container_name: as03-frontend
     ports:
       - "3000:80"
